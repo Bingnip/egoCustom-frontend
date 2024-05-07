@@ -1,1 +1,1 @@
-# egoCustom-frontend
+# EgoCustom
