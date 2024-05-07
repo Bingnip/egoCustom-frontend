@@ -126,10 +126,10 @@ import Vue from 'vue'
 import pick from 'lodash.pick'
 import { ServeCreatePerms, ServeEditPerms } from '@/api/rbac'
 
+import { constantRouterComponents } from '@/router/generator-routers'
+
 // 表单字段
 const fields = ['id', 'parent_id', 'type', 'title', 'path', 'component', 'perms', 'icon', 'sort', 'hidden', 'is_frame']
-
-import { constantRouterComponents } from '@/router/generator-routers'
 
 export default {
   name: 'RuleForm',
@@ -147,7 +147,7 @@ export default {
       default: []
     }
   },
-  data() {
+  data () {
     return {
       formLayout: {
         labelCol: {
@@ -168,21 +168,21 @@ export default {
         }
       },
       loading: false,
-      form: this.$form.createForm(this, { name: 'rule_from', onValuesChange(props, values) {} }),
+      form: this.$form.createForm(this, { name: 'rule_from', onValuesChange (props, values) {} }),
       routers: constantRouterComponents
     }
   },
   watch: {
-    model() {
+    model () {
       this.model && this.form.setFieldsValue(pick(this.model, fields))
     }
   },
-  created() {
+  created () {
     // 防止表单未注册
     fields.forEach(v => this.form.getFieldDecorator(v))
   },
   methods: {
-    submit(e) {
+    submit (e) {
       e.preventDefault()
       this.form.validateFields((errors, values) => {
         if (!errors) {
@@ -204,10 +204,10 @@ export default {
         }
       })
     },
-    cancel() {
+    cancel () {
       this.$emit('cancel')
     },
-    add(values) {
+    add (values) {
       ServeCreatePerms(values)
         .then(res => {
           if (res.code == 200) {
@@ -224,7 +224,7 @@ export default {
           this.loading = false
         })
     },
-    edit(values) {
+    edit (values) {
       ServeEditPerms(values)
         .then(res => {
           if (res.code == 200) {

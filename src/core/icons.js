@@ -8,11 +8,11 @@
  */
 
 // 案例 ： path to your '*.svg?inline' file.
-// import IconName from '@/assets/icons/icon-name.svg?inline'; 
+// import IconName from '@/assets/icons/icon-name.svg?inline';
 
-import bxAnaalyse from '@/assets/icons/bx-analyse.svg?inline';
-import LoginAsideSvg from '@/assets/login-aside.svg?inline';
-import LogoSvg from '@/assets/logo.svg?inline';
+import bxAnaalyse from '@/assets/icons/bx-analyse.svg?inline'
+import LoginAsideSvg from '@/assets/login-aside.svg?inline'
+import LogoSvg from '@/assets/logo.svg?inline'
 
 export {
   bxAnaalyse,

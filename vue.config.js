@@ -9,12 +9,12 @@ const createThemeColorReplacerPlugin = require('./config/plugin.config')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const productionGzipExtensions = ['js', 'css']
 
-function resolve(dir) {
+function resolve (dir) {
   return path.join(__dirname, dir)
 }
 
 // check Git
-function getGitHash() {
+function getGitHash () {
   try {
     return GitRevision.version()
   } catch (e) {}
@@ -30,7 +30,7 @@ const assetsCDN = {
     'vue-router': 'VueRouter',
     vuex: 'Vuex',
     axios: 'axios',
-    'vue-i18n': 'VueI18n',
+    'vue-i18n': 'VueI18n'
   },
   css: [],
   // https://unpkg.com/browse/vue@2.6.10/
@@ -39,7 +39,7 @@ const assetsCDN = {
     '//cdn.jsdelivr.net/npm/vue-router@3.1.3/dist/vue-router.min.js',
     '//cdn.jsdelivr.net/npm/vuex@3.1.1/dist/vuex.min.js',
     '//cdn.jsdelivr.net/npm/axios@0.19.0/dist/axios.min.js',
-    '//cdn.jsdelivr.net/npm/vue-i18n@8.17.4/dist/vue-i18n.min.js',
+    '//cdn.jsdelivr.net/npm/vue-i18n@8.17.4/dist/vue-i18n.min.js'
   ]
 }
 

@@ -43,17 +43,17 @@ export default {
     }
   },
   methods: {
-    handleToSettings() {
+    handleToSettings () {
       this.$router.push({
         path: '/account/settings'
       })
     },
-    handleToPassword() {
+    handleToPassword () {
       this.$router.push({
         path: '/account/settings/password'
       })
     },
-    handleLogout(e) {
+    handleLogout (e) {
       Modal.confirm({
         title: this.$t('layouts.usermenu.dialog.title'),
         content: this.$t('layouts.usermenu.dialog.content'),
@@ -62,7 +62,7 @@ export default {
             window.location.href = '/login'
           })
         },
-        onCancel() {}
+        onCancel () {}
       })
     }
   }

@@ -3,7 +3,7 @@
     <div slot="overlay">
       <a-spin :spinning="loading">
         <a-tabs class="dropdown-tabs" :tabBarStyle="{ textAlign: 'center' }" :style="{ width: '330px' }">
-          <a-tab-pane tab="通知(4)" key="1">
+          <a-tab-pane tab="通知" key="1">
             <a-list class="tab-pane">
               <a-list-item v-for="(notice, idx) in notices" :key="idx">
                 <a-list-item-meta :title="notice.title" :description="notice.description" />
@@ -14,7 +14,7 @@
               <div>查看更多</div>
             </div>
           </a-tab-pane>
-          <a-tab-pane tab="消息(8)" key="2">
+          <a-tab-pane tab="消息" key="2">
             <a-list class="tab-pane">
               <a-list class="tab-pane">
                 <a-list-item v-for="(notice, idx) in notices" :key="idx">
@@ -27,14 +27,14 @@
               </div>
             </a-list>
           </a-tab-pane>
-          <a-tab-pane tab="待办(4)" key="3">
+          <a-tab-pane tab="待办" key="3">
             <a-list class="tab-pane"></a-list>
           </a-tab-pane>
         </a-tabs>
       </a-spin>
     </div>
     <span class="header-notice">
-      <a-badge class="notice-badge" count="12">
+      <a-badge class="notice-badge" count="0">
         <a-icon class="header-notice-icon" type="bell" />
       </a-badge>
     </span>
@@ -44,34 +44,22 @@
 <script>
 export default {
   name: 'HeaderNotice',
-  data() {
+  data () {
     return {
       loading: false,
       show: false,
 
       notices: [
         {
-          title: '任务名称',
-          description: '任务需要在 2017-01-12 20:00 前启动'
-        },
-        {
-          title: '第三方紧急代码变更',
-          description: '冠霖提交于 2017-01-06，需在 2017-01-07 前完成代码变更任务'
-        },
-        {
-          title: '信息安全考试',
-          description: '指派竹尔于 2017-01-09 前完成更新并发布'
-        },
-        {
-          title: 'ABCD 版本发布',
-          description: '冠霖提交于 2017-01-06，需在 2017-01-07 前完成代码变更任务'
+          title: 'xx',
+          description: 'xxxxxx'
         }
       ]
     }
   },
   computed: {},
   methods: {
-    visibleChange(visible) {
+    visibleChange (visible) {
       if (visible) {
         this.loading = true
 

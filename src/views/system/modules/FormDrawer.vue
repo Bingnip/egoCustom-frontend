@@ -26,17 +26,17 @@
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
       form: this.$form.createForm(this),
       visible: false
     }
   },
   methods: {
-    showDrawer() {
+    showDrawer () {
       this.visible = true
     },
-    onClose() {
+    onClose () {
       this.visible = false
     }
   }

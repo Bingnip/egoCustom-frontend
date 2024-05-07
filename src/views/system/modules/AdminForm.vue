@@ -60,7 +60,7 @@ export default {
       default: () => null
     }
   },
-  data() {
+  data () {
     return {
       formLayout: {
         labelCol: {
@@ -85,15 +85,15 @@ export default {
     }
   },
   watch: {
-    model() {
+    model () {
       this.model && this.form.setFieldsValue(pick(this.model, fields))
     }
   },
-  created() {
+  created () {
     fields.forEach(v => this.form.getFieldDecorator(v))
   },
   methods: {
-    submit() {
+    submit () {
       this.loading = true
       this.form.validateFields((errors, values) => {
         if (!errors) {
@@ -116,11 +116,11 @@ export default {
         }
       })
     },
-    cancel() {
+    cancel () {
       this.$emit('cancel')
     },
     // 确认密码验证事件
-    compareToFirstPassword(rule, value, callback) {
+    compareToFirstPassword (rule, value, callback) {
       const form = this.form
       if (value && value !== form.getFieldValue('password')) {
         callback('您输入的两个密码不一致！')

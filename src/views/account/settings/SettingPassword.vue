@@ -72,7 +72,7 @@
 import { ServeUpdatePassword } from '@/api/admin'
 
 export default {
-  data() {
+  data () {
     return {
       form: this.$form.createForm(this),
       loading: false
@@ -80,7 +80,7 @@ export default {
   },
   methods: {
     // 确认密码验证事件
-    compareToFirstPassword(rule, value, callback) {
+    compareToFirstPassword (rule, value, callback) {
       if (value && value !== this.form.getFieldValue('password')) {
         callback('您输入的两个密码不一致！')
       } else {
@@ -88,7 +88,7 @@ export default {
       }
     },
 
-    submit() {
+    submit () {
       this.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
           this.saveDetail(values)
@@ -97,7 +97,7 @@ export default {
     },
 
     // 保存信息
-    saveDetail(data) {
+    saveDetail (data) {
       this.loading = true
       ServeUpdatePassword(data)
         .then(res => {

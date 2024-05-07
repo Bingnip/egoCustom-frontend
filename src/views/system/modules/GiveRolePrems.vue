@@ -54,7 +54,7 @@ export default {
       default: () => null
     }
   },
-  data() {
+  data () {
     return {
       formLayout: {
         labelCol: {
@@ -82,31 +82,31 @@ export default {
     }
   },
   watch: {
-    model() {
+    model () {
       this.model && this.form.setFieldsValue(pick(this.model, fields))
       this.resetTree()
       this.loadTree()
     }
   },
-  created() {
+  created () {
     // 防止表单未注册
     fields.forEach(v => this.form.getFieldDecorator(v))
   },
   methods: {
-    submit() {
+    submit () {
       this.form.validateFields((err, values) => {
         if (!err) {
           this.toSubmit(values.id)
         }
       })
     },
-    cancel() {
+    cancel () {
       this.loading = false
       this.resetTree()
       this.$emit('close')
     },
-    toSubmit(role_id) {
-      let permissions = [...this.checkedKeys, this.halfCheckedKeys].join(',')
+    toSubmit (role_id) {
+      const permissions = [...this.checkedKeys, this.halfCheckedKeys].join(',')
       this.loading = true
       ServeGiveRolePerms({
         role_id,
@@ -127,20 +127,20 @@ export default {
           this.loading = false
         })
     },
-    resetTree() {
+    resetTree () {
       this.checkedKeys = []
       this.treeData = []
     },
-    onCheck(checkedKeys, info) {
+    onCheck (checkedKeys, info) {
       this.halfCheckedKeys = info.halfCheckedKeys
     },
-    loadTree() {
+    loadTree () {
       ServeGetRolePerms({
         role_id: this.model.id
       }).then(res => {
         if (res.code == 200) {
           const { permissions, role_perms } = res.data
-          let pids = uniqueArr(getTreePids(permissions))
+          const pids = uniqueArr(getTreePids(permissions))
 
           this.treeData = permissions
           role_perms.forEach(val => {

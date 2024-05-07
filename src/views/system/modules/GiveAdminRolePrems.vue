@@ -62,7 +62,7 @@ export default {
       default: () => null
     }
   },
-  data() {
+  data () {
     return {
       formLayout: {
         labelCol: {
@@ -91,31 +91,31 @@ export default {
     }
   },
   watch: {
-    model() {
+    model () {
       this.form.resetFields()
       this.model && this.form.setFieldsValue(pick(this.model, fields))
       this.resetTree()
       this.loadTree()
     }
   },
-  created() {
+  created () {
     fields.forEach(v => this.form.getFieldDecorator(v))
   },
   methods: {
-    submit() {
+    submit () {
       this.form.validateFields((err, values) => {
         if (!err) {
           this.toSubmit(values)
         }
       })
     },
-    cancel() {
+    cancel () {
       this.loading = false
       this.resetTree()
       this.$emit('close')
     },
-    toSubmit(values) {
-      let permissions = [...this.checkedKeys, this.halfCheckedKeys].join(',')
+    toSubmit (values) {
+      const permissions = [...this.checkedKeys, this.halfCheckedKeys].join(',')
       this.loading = true
       ServeGiveAdminPerms({
         admin_id: values.admin_id,
@@ -139,23 +139,23 @@ export default {
     },
 
     // 清空权限数据
-    resetTree() {
+    resetTree () {
       this.checkedKeys = []
       this.treeData = []
     },
 
-    onCheck(checkedKeys, info) {
+    onCheck (checkedKeys, info) {
       this.halfCheckedKeys = info.halfCheckedKeys
     },
 
     // 加载权限信息
-    loadTree() {
+    loadTree () {
       ServeGetAdminPerms({
         admin_id: this.model.admin_id
       }).then(res => {
         if (res.code == 200) {
           const { admin_perms, perms, role_id, roles } = res.data
-          let pids = uniqueArr(getTreePids(perms))
+          const pids = uniqueArr(getTreePids(perms))
 
           this.treeData = perms // tree 赋值
           this.roles = roles // 角色赋值

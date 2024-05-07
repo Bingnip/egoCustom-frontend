@@ -59,7 +59,7 @@ export default {
       default: () => null
     }
   },
-  data() {
+  data () {
     return {
       formLayout: {
         labelCol: {
@@ -84,17 +84,17 @@ export default {
     }
   },
   watch: {
-    model() {
+    model () {
       this.model && this.form.setFieldsValue(pick(this.model, fields))
     }
   },
-  created() {
+  created () {
     fields.forEach(v => this.form.getFieldDecorator(v))
   },
   methods: {
-    ok() {
+    ok () {
       this.loading = true
-      let _this = this
+      const _this = this
       this.form.validateFields((errors, values) => {
         if (!errors) {
           if (values.id > 0) {
@@ -107,11 +107,11 @@ export default {
         }
       })
     },
-    cancel() {
+    cancel () {
       this.$emit('cancel')
     },
 
-    add(values) {
+    add (values) {
       ServeCreateRole(values)
         .then(res => {
           this.loading = false
@@ -128,7 +128,7 @@ export default {
         })
     },
 
-    edit(values) {
+    edit (values) {
       values.role_id = values.id
       ServeEditRole(values)
         .then(res => {
