@@ -1,5 +1,5 @@
 <template>
-  <page-header-wrapper :title="false">
+  <div>
     <a-card :bordered="false">
       <div class="table-page-search-wrapper">
         <a-form layout="inline">
@@ -22,64 +22,94 @@
               <span class="table-page-search-submitButtons">
                 <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
                 <a-button style="margin-left: 8px" @click="() => (this.queryParam = {})">重置</a-button>
+                <a-button style="margin-left: 8px" type="primary" icon="sync" @click="handleRefresh"></a-button>
+                <a-dropdown style="margin-left: 8px" >
+                  <template #overlay>
+                    <a-menu @click="createGoods">
+                      <a-menu-item key="normal_product">
+                        普通产品
+                      </a-menu-item>
+                      <a-menu-item key="shadow_product">
+                        影刻产品
+                      </a-menu-item>
+                      <a-menu-item key="custom_curtain">
+                        定制窗帘
+                      </a-menu-item>
+                      <a-menu-item key="standard_product">
+                        标准产品
+                      </a-menu-item>
+                    </a-menu>
+                  </template>
+                  <a-button type="primary">
+                    创建<a-icon type="down"/>
+                  </a-button>
+                </a-dropdown>
               </span>
             </a-col>
           </a-row>
         </a-form>
       </div>
-
-      <!-- 表格操作 -->
-      <div class="table-operator">
-        <a-button type="primary" icon="sync" @click="handleRefresh"></a-button>
-        <a-button type="primary" icon="plus" @click="handleAddAdmin">添加<a-icon type="down"/></a-button>
-      </div>
-
-      <!-- Table 模板配置 -->
-      <s-table
-        ref="table"
-        size="default"
-        rowKey="id"
-        :columns="columns"
-        :data="loadData"
-        :showPagination="true"
-        :showPageJump="true"
-        :alert="true"
-        :scroll="{ x: 1200 }"
-        :rowSelection="rowSelection"
-      >
-        <template slot="statusTitle">
-          状态
-          <a-tooltip title="【禁用】状态不能进行登录">
-            <a-icon type="question-circle" />
-          </a-tooltip>
-        </template>
-
-        <span slot="action" slot-scope="text, record">
-          <span v-action:system:user:edit>
-            <a>编辑</a>
-            <a-divider type="vertical" />
-          </span>
-
-          <a-dropdown placement="bottomCenter" :trigger="['click']">
-            <a-menu slot="overlay">
-              <a-menu-item @click="deleteConfirm(record)" v-action:system:user:delete><a>删除账号</a></a-menu-item>
-            </a-menu>
-            <a>更多 <a-icon type="down"/></a>
-          </a-dropdown>
-        </span>
-      </s-table>
-
     </a-card>
+
+    <a-drawer
+      :width="1300"
+      :visible="createGoodsDrawer.visible"
+      :title="createGoodsDrawer.title"
+      placement="right"
+      :open="createGoodsDrawerOpen"
+      @close="createGoodsDrawerClose">
+      <a-tabs tab-position="right" animated>
+        <a-tab-pane key="1" tab="基础信息">
+          <a-form name="basic" v-bind="formItemLayout" autocomplete="off">
+            <a-form-item label="SKU" name="sku" :rules="[{ required: true, message: '请输入 SKU!' }]">
+              <a-input v-model="createGoodsDrawer.basicInfo.sku" />
+            </a-form-item>
+            <a-form-item label="商品名称" name="name" :rules="[{ required: true, message: '请输入 名称!' }]">
+              <a-input v-model="createGoodsDrawer.basicInfo.name" />
+            </a-form-item>
+            <a-form-item label="URL KEY" name="urlKey" :rules="[{ required: true, message: '请输入 URL KEY!' }]">
+              <a-input v-model="createGoodsDrawer.basicInfo.urlKey" />
+            </a-form-item>
+            <a-form-item label="商品图片" name="coverImg" :rules="[{ required: true, message: '请输入 URL KEY!' }]">
+              <a-upload
+                name="avatar"
+                list-type="picture-card"
+                class="avatar-uploader"
+                max-count="1"
+                :show-upload-list="false"
+                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                :before-upload="beforeUpload"
+                @change="handleCoverImgChange"
+              >
+                <img v-if="coverImg" :src="coverImg" alt="avatar" />
+                <div v-else>
+                  <loading-outlined v-if="loading"></loading-outlined>
+                  <plus-outlined v-else></plus-outlined>
+                  <div class="ant-upload-text">Cover</div>
+                </div>
+              </a-upload>
+            </a-form-item>
+          </a-form>
+        </a-tab-pane>
+        <a-tab-pane key="2" tab="商品详情">Content of Tab 2</a-tab-pane>
+        <a-tab-pane key="3" tab="商品分类">Content of Tab 3</a-tab-pane>
+        <a-tab-pane key="4" tab="定制项">Content of Tab 3</a-tab-pane>
+        <a-tab-pane key="5" tab="选择标签">Content of Tab 3</a-tab-pane>
+        <a-tab-pane key="6" tab="物流类型">Content of Tab 3</a-tab-pane>
+        <a-tab-pane key="7" tab="贺卡选择">Content of Tab 3</a-tab-pane>
+      </a-tabs>
+    </a-drawer>
 
     <!-- fixed footer toolbar -->
     <footer-tool-bar :is-mobile="isMobile" extra="扩展信息提示" v-show="selectedRows.length > 0">
       <a-button type="primary">批量删除({{ selectedRows.length }})</a-button>
     </footer-tool-bar>
-  </page-header-wrapper>
+  </div>
 </template>
 
 <script>
 import { ServeGetGoods } from '@/api/goods'
+import FooterToolBar from '@/components/FooterToolbar'
 
 const statusMap = {
   0: {
@@ -93,6 +123,9 @@ const statusMap = {
 }
 
 export default {
+  components: {
+      FooterToolBar
+  },
   name: 'GoodsList',
 
   data () {
@@ -147,9 +180,23 @@ export default {
           }
         }
       ],
-
+      isMobile: false,
       // 查询参数
       queryParam: {},
+      // 创建产品
+      formItemLayout: { labelCol: { xs: { span: 24 }, sm: { span: 2 } }, wrapperCol: { xs: { span: 24 }, sm: { span: 12 } } },
+      createGoodsDrawer: {
+        title: 'kkkkk',
+        visible: true,
+        seriesType: '',
+        basicInfo: {
+          sku: '',
+          name: '',
+          urlKey: '',
+          coverImg: '',
+          hoverImg: ''
+        }
+      },
       // 加载数据方法 必须为 Promise 对象
       loadData: parameter => {
         const data = Object.assign({}, parameter, this.queryParam)
@@ -175,10 +222,59 @@ export default {
     }
   },
   methods: {
-    // 表格刷新
-    handleRefresh () {
+    handleRefresh () { // 表格刷新
       this.$refs.table.refresh()
+    },
+    createGoods (e) { // 创建商品
+      console.log(e)
+      this.createGoodsDrawer.visible = true
+      this.createGoodsDrawer.seriesType = e.key
+      var name = ''
+      switch (e.key) {
+        case 'normal_product':
+            name = '普通产品'
+          break
+        case 'shadow_product':
+            name = '影刻产品'
+          break
+        case 'custom_curtain':
+            name = '定制窗帘'
+          break
+        case 'standard_product':
+            name = '定制窗帘'
+          break
+        default:
+          break
+      }
+      this.createGoodsDrawer.title = '创建：' + name
+    },
+    createGoodsDrawerOpen () {
+
+    },
+    createGoodsDrawerClose () {
+        this.createGoodsDrawer.visible = false
+    },
+    createGoodsDrawerSubmit () {
+
+    },
+    handleCoverImgChange () {
+
     }
+
   }
 }
 </script>
+<style scoped>
+.avatar-uploader > .ant-upload {
+  width: 128px;
+  height: 128px;
+}
+.ant-upload-select-picture-card i {
+  font-size: 32px;
+  color: #999;
+}
+.ant-upload-select-picture-card .ant-upload-text {
+  margin-top: 8px;
+  color: #666;
+}
+</style>

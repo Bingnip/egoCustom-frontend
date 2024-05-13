@@ -71,7 +71,7 @@ export default {
   components: {
     AvatarModal
   },
-  data() {
+  data () {
     return {
       form: this.$form.createForm(this),
       loading: false,
@@ -81,13 +81,13 @@ export default {
       }
     }
   },
-  created() {
+  created () {
     const fields = ['nickname', 'email', 'profile']
 
     ServeGetAdminDetail()
       .then(res => {
         if (res.code == 200) {
-          let result = res.data
+          const result = res.data
           this.username = result.username
           this.form.setFieldsValue(pick(result, fields))
         }
@@ -97,10 +97,10 @@ export default {
       })
   },
   methods: {
-    setavatar(url) {
+    setavatar (url) {
       this.option.img = url
     },
-    submit() {
+    submit () {
       this.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
           this.saveDetail(values)
@@ -109,7 +109,7 @@ export default {
     },
 
     // 保存信息
-    saveDetail(data) {
+    saveDetail (data) {
       this.loading = true
       data.avatar = ''
       ServeUpdateAdminDetail(data)

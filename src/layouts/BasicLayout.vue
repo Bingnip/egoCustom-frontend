@@ -23,7 +23,7 @@
     </template>
 
     <template v-slot:footerRender>
-      <span>exec time: ms</span>
+      <span>ExecTime: </span>
     </template>
 
     <router-view />
