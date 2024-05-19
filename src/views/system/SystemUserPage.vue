@@ -243,7 +243,7 @@ export default {
         onChange: this.onSelectChange
       }
     }
-  },
+  }, 
   methods: {
     // 表格刷新
     handleRefresh () {

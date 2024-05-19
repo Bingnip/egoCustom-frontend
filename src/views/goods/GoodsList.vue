@@ -20,7 +20,8 @@
             </a-col>
             <a-col :md="6" :sm="24">
               <span class="table-page-search-submitButtons">
-                <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
+                <a-button type="primary">图库</a-button>
+                <a-button style="margin-left: 8px" type="primary" @click="$refs.table.refresh(true)">查询</a-button>
                 <a-button style="margin-left: 8px" @click="() => (this.queryParam = {})">重置</a-button>
                 <a-button style="margin-left: 8px" type="primary" icon="sync" @click="handleRefresh"></a-button>
                 <a-dropdown style="margin-left: 8px" >
@@ -44,6 +45,7 @@
                     创建<a-icon type="down"/>
                   </a-button>
                 </a-dropdown>
+
               </span>
             </a-col>
           </a-row>
@@ -81,12 +83,6 @@
                 :before-upload="beforeUpload"
                 @change="handleCoverImgChange"
               >
-                <img v-if="coverImg" :src="coverImg" alt="avatar" />
-                <div v-else>
-                  <loading-outlined v-if="loading"></loading-outlined>
-                  <plus-outlined v-else></plus-outlined>
-                  <div class="ant-upload-text">Cover</div>
-                </div>
               </a-upload>
             </a-form-item>
           </a-form>
@@ -104,12 +100,20 @@
     <footer-tool-bar :is-mobile="isMobile" extra="扩展信息提示" v-show="selectedRows.length > 0">
       <a-button type="primary">批量删除({{ selectedRows.length }})</a-button>
     </footer-tool-bar>
-  </div>
+
+    <image-gallery
+      ref="imageGalleryModal"
+      :visible="imageGalleryModal.visible"
+      :model="imageGalleryModal.model"
+      @cancel="() => (this.imageGalleryModal.visible = false)"
+    ></image-gallery>
+  </div> 
 </template>
 
 <script>
 import { ServeGetGoods } from '@/api/goods'
 import FooterToolBar from '@/components/FooterToolbar'
+import ImageGallery from '@/components/ImageGallery'
 
 const statusMap = {
   0: {
@@ -124,7 +128,8 @@ const statusMap = {
 
 export default {
   components: {
-      FooterToolBar
+      FooterToolBar,
+      ImageGallery
   },
   name: 'GoodsList',
 
@@ -187,7 +192,7 @@ export default {
       formItemLayout: { labelCol: { xs: { span: 24 }, sm: { span: 2 } }, wrapperCol: { xs: { span: 24 }, sm: { span: 12 } } },
       createGoodsDrawer: {
         title: 'kkkkk',
-        visible: true,
+        visible: false,
         seriesType: '',
         basicInfo: {
           sku: '',
@@ -197,15 +202,19 @@ export default {
           hoverImg: ''
         }
       },
+      imageGalleryModal: {
+        visible: true,
+        model: null
+      },
       // 加载数据方法 必须为 Promise 对象
-      loadData: parameter => {
+      selectedRowKeys: [],
+      selectedRows: [],
+       loadData: parameter => {
         const data = Object.assign({}, parameter, this.queryParam)
         return ServeGetGoods(data).then(res => {
           return res.data
         })
-      },
-      selectedRowKeys: [],
-      selectedRows: []
+      }
     }
   },
   filters: {
@@ -258,6 +267,9 @@ export default {
 
     },
     handleCoverImgChange () {
+
+    },
+    beforeUpload () {
 
     }
 
