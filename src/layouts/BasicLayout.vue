@@ -118,10 +118,10 @@ export default {
 
     // first update color
     // TIPS: THEME COLOR HANDLER!! PLEASE CHECK THAT!!
-    if (process.env.NODE_ENV !== 'production' || process.env.VUE_APP_PREVIEW === 'true') {
-      updateTheme(this.settings.primaryColor)
-      this.isShowSetting = true
-    }
+    // if (process.env.NODE_ENV !== 'production' || process.env.VUE_APP_PREVIEW === 'true') {
+    //   updateTheme(this.settings.primaryColor)
+    //   this.isShowSetting = true
+    // }
   },
   methods: {
     i18nRender,
